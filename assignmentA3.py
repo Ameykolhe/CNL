@@ -19,12 +19,14 @@ def pingIP(args):
     s = "\nPing unsuccessful : "
     if exitCode != 0:
         print(s)
+    elif exitCode == 256:
+        print("Host is Down")
     elif ("Destination Host Unreachable" in out )  or ('Destination host unreachable' in out) :
         print(s + "Destination Host Unreachable")
     elif "Request Timed Out" in out:
         print(s + "Request Timed Out") 
     else:
-        print("\nPING Successful")
+        print("\nPING Successful\n")
         
 
 
