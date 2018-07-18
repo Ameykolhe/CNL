@@ -54,7 +54,7 @@ def printDetail(*arg):
         print("Class : " ,  arg[0])
     print("IP : " , arg[1] , type(arg[1]))
     print("NetId : " ,  arg[2])
-    print("SubnetMask : ",arg[3], type(arg[3]) ,'\n')
+    print("SubnetMask : ",arg[3] ,'\n')
     if arg[5] == True:
         #print(type(arg[4][0]))
         network = arg[4]
@@ -100,7 +100,7 @@ def findSubnetMask(args):
             print("\nInvalid no. of Subnets")
             return
         print('\nClassless')
-        l = cidrSubnetMask(ip,int(i[1]))
+        l = cidrSubnetMask(ip,int(i[1]) + n)
         l = '.'.join(str(x) for x in l)
         ip = '.'.join(str(x) for x in ip)
         ip = ip + '/' + str(i[1])
