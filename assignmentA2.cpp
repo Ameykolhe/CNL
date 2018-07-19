@@ -5,7 +5,7 @@ class hammingCode
 {
     char c;
     vector<bool> bitset;
-    vector<bool> data;
+    //vector<bool> data;
     map <int,vector<int>> m;
     public:
     hammingCode()
@@ -68,7 +68,7 @@ void hammingCode :: getInput()
     bitset.insert(bitset.begin()+2,NULL);
     bitset.insert(bitset.begin()+4,NULL);
     bitset.insert(bitset.begin()+8,NULL);
-    displayVector(data);
+    //displayVector(data);
     displayVector(bitset);
 }
 
