@@ -52,7 +52,7 @@ def cidrSubnetMask(ip,n):
 def printDetail(*arg):
     if arg[0] != None:
         print("Class : " ,  arg[0])
-    print("IP : " , arg[1] , type(arg[1]))
+    print("IP : " , arg[1] )
     print("NetId : " ,  arg[2])
     print("SubnetMask : ",arg[3] ,'\n')
     if arg[5] == True:
@@ -201,7 +201,7 @@ if __name__ == '__main__' :
     
     setIPParser = subParser.add_parser('setIP')
     setIPParser.add_argument('-ip', type = str  , help = 'ip' , required = True)
-    setIPParser.add_argument('-s' , type = int , default = None , help = 'no of Subnets')
+    setIPParser.add_argument('-s' , type = int , default = 1 , help = 'no of Subnets')
     setIPParser.add_argument('-interface',type = str , help = 'Interface Name' , required = True)
     setIPParser.set_defaults(func = setIP)
 
