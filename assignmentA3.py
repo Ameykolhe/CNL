@@ -176,9 +176,9 @@ def setIP(args):
 
     tup = temp.func(temp)
     try:
-        os.system("sudo ifconfig " + args.interface + ' down')
-        os.system("sudo ifconfig " + args.interface + ' ' + tup[1] + ' netmask ' + tup[3] )
-        os.system("sudo ifconfig " + args.interface + ' up')
+        os.system("ifconfig " + args.interface + ' down')
+        os.system("ifconfig " + args.interface + ' ' + tup[1] + ' netmask ' + tup[3] )
+        os.system("ifconfig " + args.interface + ' up')
         print("IP address Updated Successfully")
     except Exception as e:
         print(e)
