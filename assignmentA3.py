@@ -16,18 +16,17 @@ def pingIP(args):
     exitCode = proc.returncode
     out = out.decode('utf-8')
     err = err.decode('utf-8')
-    s = "\nPing unsuccessful : "
-    if exitCode != 0:
-        print(s)
-    elif exitCode == 256:
-        print("Host is Down")
-    elif ("Destination Host Unreachable" in out )  or ('Destination host unreachable' in out) :
-        print(s + "Destination Host Unreachable")
+    s = "\nPing unsuccessful"
+    print(exitCode)
+
+    if ("Destination Host Unreachable" in out )  or ('Destination host unreachable' in out) :
+        print(s + " : Destination Host Unreachable")
     elif "Request Timed Out" in out:
-        print(s + "Request Timed Out") 
+        print(s + " : Request Timed Out") 
+    elif exitCode == 1:
+        print(s + " : Host is Down")
     else:
         print("\nPING Successful\n")
-        
 
 
 def cidrSubnetMask(ip,n):
