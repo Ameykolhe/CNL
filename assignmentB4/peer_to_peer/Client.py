@@ -4,7 +4,7 @@ import threading
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
-server_address = ('localhost', 5000)
+server_address = ('192.168.0.105', 5000)
 
 
 global data
