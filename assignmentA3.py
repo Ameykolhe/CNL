@@ -8,26 +8,69 @@ import os
 
 def pingIP(args):
 
-    ping_str = "-n 1" if  platform.system().lower()=="windows" else "-c 1"
-    args = "ping " + " " + ping_str + " " + args.ip
-    need_sh = False if  platform.system().lower()=="windows" else True
-    proc = Popen(args, shell=need_sh , stderr = PIPE , stdout = PIPE )
-    out , err = proc.communicate()
-    exitCode = proc.returncode
-    out = out.decode('utf-8')
-    err = err.decode('utf-8')
-    s = "\nPing unsuccessful"
-    print(exitCode)
+    ifc = Popen("ifconfig" , shell=True , stderr=PIPE , stdout=PIPE)
+    print()
+    inter = 'ens33'
+    ifcOut,ifcErr = ifc.communicate()
+    ifcOut = ifcOut.decode('UTF-8')
 
-    if ("Destination Host Unreachable" in out )  or ('Destination host unreachable' in out) :
-        print(s + " : Destination Host Unreachable")
-    elif "Request Timed Out" in out:
-        print(s + " : Request Timed Out") 
-    elif exitCode == 1:
-        print(s + " : Host is Down")
-    else:
-        print("\nPING Successful\n")
+    ifcOut = ifcOut.split('collisions')
 
+    Ip = ""
+    netId = ""
+    submask = ""
+
+
+    for tstr in ifcOut:
+        if inter in tstr:
+            tstr = tstr.split(' ')
+            Ip = tstr[tstr.index('inet') + 1]
+            submask = tstr[tstr.index('netmask') + 1]
+
+    bits = 0
+    lsubmask = submask.split('.')
+    for m in lsubmask:
+        if int(m) == 255 :
+            bits = bits + 8
+        elif int(m) != 0:
+            bits = bits + 8 - math.floor(math.log2(256 - int(m)))
+
+    Ip = Ip + '/' + str(bits)
+
+    Ip = ipaddress.ip_interface(Ip)
+    network = Ip.network
+    print(network)
+    #print(list(netId.subnets(0)))
+
+    args.ip = ipaddress.IPv4Address( args.ip.split('/')[0] )
+    print('IP to PING : ',args.ip)
+    network = list(network)
+    print(network)
+    if args.ip == network[0]:
+        print('Cannot Ping net ID')
+    elif args.ip == network[-1]:
+        print('Cannot Ping Broadcast ID')
+    elif args.ip in network:
+        ping_str = "-n 1" if  platform.system().lower()=="windows" else "-c 1"
+        args = "ping " + " " + ping_str + " " + args.ip
+        need_sh = False if  platform.system().lower()=="windows" else True
+        proc = Popen(args, shell=need_sh , stderr = PIPE , stdout = PIPE )
+        out , err = proc.communicate()
+        exitCode = proc.returncode
+        out = out.decode('utf-8')
+        err = err.decode('utf-8')
+        s = "\nPing unsuccessful"
+        print(exitCode)
+
+        if ("Destination Host Unreachable" in out )  or ('Destination host unreachable' in out) :
+            print(s + " : Destination Host Unreachable")
+        elif "Request Timed Out" in out:
+            print(s + " : Request Timed Out") 
+        elif exitCode == 1:
+            print(s + " : Host is Down")
+        else:
+            print("\nPING Successful\n")
+            
 
 def cidrSubnetMask(ip,n):
     submask = [0,0,0,0]
