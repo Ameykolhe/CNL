@@ -9,7 +9,11 @@ import os
 def pingIP(args):
 
     ifc = Popen("ifconfig" , shell=True , stderr=PIPE , stdout=PIPE)
+<<<<<<< HEAD
     #print()
+=======
+    print()
+>>>>>>> 66115323fd8cc826e782144c5ed8af630ea245e6
     inter = 'ens33'
     ifcOut,ifcErr = ifc.communicate()
     ifcOut = ifcOut.decode('UTF-8')
@@ -39,6 +43,7 @@ def pingIP(args):
 
     Ip = ipaddress.ip_interface(Ip)
     network = Ip.network
+<<<<<<< HEAD
     #print(network)
     #print(list(netId.subnets(0)))
 
@@ -46,15 +51,30 @@ def pingIP(args):
     #print('IP to PING : ',args.ip)
     network = list(network)
     #print(network)
+=======
+    print(network)
+    #print(list(netId.subnets(0)))
+
+    args.ip = ipaddress.IPv4Address( args.ip.split('/')[0] )
+    print('IP to PING : ',args.ip)
+    network = list(network)
+    print(network)
+>>>>>>> 66115323fd8cc826e782144c5ed8af630ea245e6
     if args.ip == network[0]:
         print('Cannot Ping net ID')
     elif args.ip == network[-1]:
         print('Cannot Ping Broadcast ID')
+<<<<<<< HEAD
     elif args.ip not in network:
         print('Cannot Ping IP in different Subnet')
     elif args.ip in network:
         ping_str = "-n 1" if  platform.system().lower()=="windows" else "-c 1"
         args = "ping " + " " + ping_str + " " + str(args.ip)
+=======
+    elif args.ip in network:
+        ping_str = "-n 1" if  platform.system().lower()=="windows" else "-c 1"
+        args = "ping " + " " + ping_str + " " + args.ip
+>>>>>>> 66115323fd8cc826e782144c5ed8af630ea245e6
         need_sh = False if  platform.system().lower()=="windows" else True
         proc = Popen(args, shell=need_sh , stderr = PIPE , stdout = PIPE )
         out , err = proc.communicate()
@@ -62,7 +82,11 @@ def pingIP(args):
         out = out.decode('utf-8')
         err = err.decode('utf-8')
         s = "\nPing unsuccessful"
+<<<<<<< HEAD
         #print(exitCode)
+=======
+        print(exitCode)
+>>>>>>> 66115323fd8cc826e782144c5ed8af630ea245e6
 
         if ("Destination Host Unreachable" in out )  or ('Destination host unreachable' in out) :
             print(s + " : Destination Host Unreachable")
