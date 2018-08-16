@@ -2,10 +2,10 @@ import socket
 import threading
 import sys
 
-
-clientListServer = ('192.168.0.100',5000)
-matchServer = ('192.168.0.100',5001)
-charServerAddress = ('192.168.0.100')
+serverip = '192.168.0.100'
+clientListServer = (serverip,5000)
+matchServer = (serverip,5001)
+charServerAddress = None
 
 socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
@@ -15,6 +15,7 @@ your_name = None
 def initiate_chat():
     global your_name
     global charServerAddress
+    global serverip
 
     your_name = bytes(input('Enter your name: '), encoding='UTF-8')
     socket.sendto(your_name, clientListServer)
@@ -26,7 +27,7 @@ def initiate_chat():
         print('in IF')
         socket.sendto(bytes(chatwith,encoding='UTF-8') , matchServer)
     portno , _ = socket.recvfrom(4096)
-    charServerAddress = ('192.168.0.100',int(portno.decode(encoding='UTF-8')))
+    charServerAddress = (serverip,int(portno.decode(encoding='UTF-8')))
     print(charServerAddress)
     print("Initiated Successfully")
 

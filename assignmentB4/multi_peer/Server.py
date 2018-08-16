@@ -13,14 +13,6 @@ class Chat_Server:
         self.address1 = address1
         self.address2 = address2
 
-    '''
-    def get_clients(self):
-        self.name1, self.address1 = self.server.recvfrom(4096)
-        self.name2, self.address2 = self.server.recvfrom(4096)
-        print('Address1 {} Address2 {}'.format(self.address1, self.address2))
-        print('Initiated chat')
-    '''
-
 
     def send1(self):
         print('Started thread1')
@@ -91,10 +83,6 @@ def main():
     chatServerList = []
 
     while True:
-        '''
-        print(clientList)
-        time.sleep(1)
-        '''
         print("In Matching")
         name2 , address1 = matchserver.recvfrom(4096)
         print("Request Received From : ",address1)
@@ -121,38 +109,5 @@ def main():
         portno = portno + 1 
 
 
-
 if __name__ == '__main__':
     main()
-
-
-
-
-
-'''
-
-def main():
-    # Test 1
-    cs = Chat_Server(5000)
-    cs.get_clients()
-    cs.run()
-
-
-    #test2
-
-    #Change the port number in the Client_primary.py and Client_secondary.py respectively 
-    cs1, cs2, cs3 = Chat_Server(5000), Chat_Server(5001), Chat_Server(5002)
-    cs1.get_clients()
-    cs2.get_clients()
-    cs3.get_clients()
-    main_thread1 = threading.Thread(target=cs1.run, args=())
-    main_thread2 = threading.Thread(target=cs2.run, args=())
-    main_thread3 = threading.Thread(target=cs3.run, args=())
-    main_thread1.start()
-    main_thread2.start()
-    main_thread3.start()
-    main_thread1.join()
-    main_thread2.join()
-    main_thread3.join()
-
-    '''
