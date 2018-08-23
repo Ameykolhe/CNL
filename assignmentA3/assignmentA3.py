@@ -9,11 +9,6 @@ import os
 def pingIP(args):
 
     ifc = Popen("ifconfig" , shell=True , stderr=PIPE , stdout=PIPE)
-<<<<<<< HEAD
-    #print()
-=======
-    print()
->>>>>>> 66115323fd8cc826e782144c5ed8af630ea245e6
     inter = 'ens33'
     ifcOut,ifcErr = ifc.communicate()
     ifcOut = ifcOut.decode('UTF-8')
