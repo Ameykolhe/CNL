@@ -9,14 +9,14 @@
 #include<arpa/inet.h>
 #include<netdb.h>
 #define PORT 8099
+#define MAXLEN 65535
 
 void main(int argc, char const *argv[])
 {
     struct sockaddr_in address;
     int sock = 0, valread;
     struct sockaddr_in serv_addr;
-    char *hello = "Hello from client";
-    char buffer[1024] = {0};
+
     if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0)
     {
         printf("\n Socket creation error \n");
@@ -28,7 +28,7 @@ void main(int argc, char const *argv[])
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_port = htons(PORT);
     
-    if(inet_pton(AF_INET, "127.0.0.1", &serv_addr.sin_addr)<=0) 
+    if(inet_pton(AF_INET, "192.168.0.103", &serv_addr.sin_addr)<=0) 
     {
         printf("\nInvalid address/ Address not supported \n");
        
@@ -39,42 +39,64 @@ void main(int argc, char const *argv[])
         printf("\nConnection Failed \n");
         
     }
-    send(sock , hello , strlen(hello) , 0 );
-    printf("Hello message sent\n");
-    //valread = read( sock , buffer, 1024);
-    //printf("%s\n",buffer );
+
+    int len;
+
+/*
+    //message Transfer
+    char readBuffer[MAXLEN];
+    char sendBuffer[MAXLEN];
+
+    printf("Enter Message : ");
+    len = scanf("%s" , sendBuffer);
+    send(sock  , sendBuffer , MAXLEN , 0 );
+    printf("Message sent\n\n");
+    len = read(sock, &readBuffer, MAXLEN);
+    printf("received : %s\n", readBuffer);
     
+
     // File transfer
-    char buffer2[10];
+    
+    char fileName[256];
+    printf("Enter File Name : ");
+    scanf("%s" , fileName);
+
     FILE *fp;
-    fp = fopen("file", "r");
-    fscanf(fp, "%s", &buffer2);
-    send(sock, buffer2, strlen(buffer2), 0);
+    fp = fopen(fileName, "r");
+    fseek(fp, 0, SEEK_END);
+    int fsize = ftell(fp);
+    fseek(fp, 0, SEEK_SET);
+    
+    char buffer2[fsize];
+    
+    fread(buffer2, fsize , 1, fp);
+    
+    send(sock, fileName, 256, 0);
+    send(sock, buffer2, fsize, 0);
+
+    printf("File Sent\n\n");
+
     fclose(fp);
+
+*/
+    // Trigonometric Calculator
     
-    // Arithmetic 
-    
-    printf("\n[1]To add\n[2]To sub\n[3]To mul\n[4]To div:");
+    printf("\n[1]To Find SIN\n[2]To Find COS\n[3]To Find TAN\n >");
     int option;
     scanf("%d", &option);
     int converted = htonl(option);
     
     send(sock, &converted, sizeof(converted), 0);
     
-    printf("Enter num1: ");
+    printf("Enter Angle (Degree) : ");
     int num1;
     scanf("%d", &num1);
     converted = htonl(num1);
     send(sock, &converted, sizeof(converted), 0);
     
-    printf("Enter num2: ");
-    int num2;
-    scanf("%d", &num2);
-    converted = htonl(num2);
-    send(sock, &converted, sizeof(converted), 0);
-    
     int valread2 = read(sock, &converted, sizeof(converted));
-    int answer = ntohl(converted);
-    printf("Answer : %d\n", answer);
-     
+    float answer = ntohl(converted)/1000000.0;
+    printf("Answer : %f\n", answer);
+    
+
 }
