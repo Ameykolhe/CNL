@@ -8,9 +8,12 @@
 #include<netinet/in.h>
 #include<arpa/inet.h>
 #include<netdb.h>
+
+#include<math.h>
+
 #define MAXLEN 65535
 #define PORT 8099
-#define PI 3.142
+#define PI 3.14159265358979323846264338327950288419716939937510582097494459230781640628
 
 void main(){
 
@@ -59,12 +62,15 @@ void main(){
 /*
 	//Message Transfer
 
-	char buffer[MAXLEN];
+	char readBuffer[MAXLEN];
+	char sendBuffer[MAXLEN];
+    len = read(sock_fd, &readBuffer, MAXLEN);
+    printf("received : %s\n\nEnter Message : ", readBuffer);
+	scanf("%s" , sendBuffer);
+	send(sock_fd  , sendBuffer , MAXLEN , 0 );
+	printf("Message Sent\n");
 
-    len = read(sock_fd, buffer, MAXLEN);
-    printf("%s\n", buffer);
 
-*/
 
 	//File transfer
 	
@@ -72,46 +78,52 @@ void main(){
 
 	len = read(sock_fd, fileName, MAXLEN);
 	FILE *fp;
-	fp = fopen( &fileName, "w+");
+
+	printf("file Name %s\n\n" , fileName);
+	
+	fp = fopen( fileName, "w+");
 	char buffer2[MAXLEN];
-	len = read(sock_fd, buffer2, MAXLEN);
-	fprintf(fp, "%s", buffer2);
+	len = recv(sock_fd, buffer2, MAXLEN, 0);
+	//printf("%s\n%d\n",buffer2,len);
+	//fwrite(buffer2,MAXLEN,1,fp);
+	int i;
+	for( i = 0 ; buffer2[i] != 0 ;i++)
+	{
+		fprintf(fp ,"%c" , buffer2[i]);
+	}
+	//fprintf(fp,"\0");
+	printf("File Received\n\n");
 	fclose(fp);
 
-/*
+*/
+
 
 	// Trigonometric Calculator
-	int recv, option, num1, num2, answer;
+
+	int recv, option, angle, answer;
 	len = read(sock_fd, &recv, sizeof(recv));
 	option = ntohl(recv);
 	len = read(sock_fd, &recv, sizeof(recv));
-	num1 = ntohl(recv);
-	len = read(sock_fd, &recv, sizeof(recv));
-	num2 = ntohl(recv);
+	angle = ntohl(recv);
 
-	//printf("%d, %d, %d", option, num1, num2);
+	//printf("%d, %d ", option, num1);
 
 	switch(option){
 		case 1:
-			answer = num1 + num2;
+			answer = sin(PI*angle/180.0)*1000000;
 			break;
 		case 2:
-			answer = num1 - num2;
+			answer = cos(PI*angle/180.0)*1000000;
 			break;
 		case 3:
-			answer = num1 * num2;
-			break;
-		case 4:
-			answer = num1 / num2;
+			answer = tan(PI*angle/180.0)*1000000;
 			break;
 		default:
 			answer = 0;
 			break;
 	}
-
+	printf( "%d" , answer);
 	recv = htonl(answer);
 	send(sock_fd, &recv, sizeof(recv), 0);
-
-*/
 
 }
