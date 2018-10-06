@@ -37,7 +37,7 @@ int main() {
 		}
 		while(file.good() and choice!=0)
 		{
-			getline(file,sr_no,',');
+			getline(file,sr_no,','); //GET STRING TILL ,
 			getline(file,time,',');
 			getline(file,source,',');
 			getline(file,destination,',');
@@ -50,6 +50,7 @@ int main() {
 			if(protocol=="Protocol"||protocol==protocolChoice||protocolChoice=="ALLPROTOCOLS")
 			{
 				cout <<setw(4)<<left<<i++;
+				//cout <<setw(12)<<left<< string( time, 1, time.length()-2 );
 				cout << setw(30)<<left<<string( source, 1, source.length()-2 );
 				cout << setw(30)<<left<<string( destination, 1, destination.length()-2 );
 				cout <<setw(8)<<left<<protocol;

@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
 	cin>>fileName;
 
 	ifstream infile;
-	infile.open( fileName.c_str() , ios::ate | ios::binary );
+	infile.open( fileName , ios::ate | ios::binary );
 	int fileSize = infile.tellg();
 	infile.seekg(0);
 	buffer = new char[fileSize];
