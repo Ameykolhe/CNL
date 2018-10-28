@@ -48,7 +48,7 @@ int main() {
 	
     string fileName(fileNameChar);
 
-    outfile.open( fileName , ios::out | ios::binary);
+    outfile.open( fileName.c_str() , ios::out | ios::binary);
 
     outfile.write( buffer , len );
 
