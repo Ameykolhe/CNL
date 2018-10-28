@@ -5,7 +5,7 @@ install arp-scan :
 
     usage:
 
-        arp-scan --interface ens33 --localnet
+        arp-scan --interface interfaceName --localnet
 
 
 search for installed program
@@ -26,3 +26,28 @@ sshpass :
 Install local package :
 
     yum localinstall <package_name>
+
+
+DHCP SERVER CONFIG STEPS
+
+1- yum install dhcp
+2- cd /etc/dhcp
+3- chmod +777 dhcpd.conf            --File is read Only by default
+4- gedit dhcpd.conf &
+5- copy following text
+
+subnet 192.168.0.0 netmask 255.255.255.0 {
+  range 192.168.0.100 192.168.0.200;
+  option domain-name-servers ns1.internal.example.org;
+  option domain-name "internal.example.org";
+  option subnet-mask 255.255.255.0;
+  option routers 192.168.0.1;
+  option broadcast-address 192.168.0.254;
+  default-lease-time 600;
+  max-lease-time 7200;
+}
+
+6- set routers address as machine IP in Manual SIPv4 setting 
+7- systemctl start dhcpd.service
+8- systemctl enable dhcpd.service
+9- service dhcpd restart
