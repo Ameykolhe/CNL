@@ -30,7 +30,7 @@ if __name__ == '__main__':
     choice = sock.recv(1).decode(encoding= 'UTF-8')
 
     if choice == '1':
-        sock.send(sock.recv(65535))
+        sock.send(bytes(sock.recv(65535).decode(encoding = 'UTF-8').upper() , encoding = 'UTF-8'))
     elif choice == '2':
         fileTransfer(sock)
     elif choice == '3':
