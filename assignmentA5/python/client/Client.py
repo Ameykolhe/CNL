@@ -8,5 +8,5 @@ sock.sendto(bytes(fileName, encoding = 'UTF-8'), server_address)
 with open(fileName , 'wb') as file:
 	data , _ = sock.recvfrom(65535)
 	file.write(data)
-
+	
 sock.close()
